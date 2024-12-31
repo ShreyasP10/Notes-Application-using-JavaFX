@@ -176,40 +176,7 @@ public class App extends Application {
         timeline.play();
     }
 
-    // private void toggleGroupBtnSize(VBox sidebar, Button addGroup) {
-    // isDrawerExpanded = !isDrawerExpanded;
-
-    // if (isDrawerExpanded) {
-    // sidebar.setPrefWidth(200);
-    // addGroup.setText("M");
-    // } else {
-    // sidebar.setPrefWidth(60);
-    // addGroup.setText("O");
-    // } if (isDrawerExpanded) {
-    // sidebarOption.getChildren().addAll(textLabel);
-    // } else {
-    // sidebarOption.getChildren().add(iconLabel);
-    // }
-
-    // for (Node node : sidebar.getChildren()) {
-    // if (node instanceof HBox) {
-    // HBox sidebarOption = (HBox) node;
-    // Label textLabel = sidebarOption.getChildren().size() > 1 ? (Label)
-    // sidebarOption.getChildren().get(1) : null;
-
-    // if (isDrawerExpanded) {
-    // if (textLabel != null && !sidebarOption.getChildren().contains(textLabel)) {
-    // sidebarOption.getChildren().add(textLabel);
-    // }
-    // } else {
-    // if (textLabel != null) {
-    // sidebarOption.getChildren().remove(textLabel);
-    // }
-    // }
-    // }
-    // }
-    // }
-
+ 
     private void showMainApp(Stage primaryStage) {
         primaryStage.setTitle("To-Do List App");
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
