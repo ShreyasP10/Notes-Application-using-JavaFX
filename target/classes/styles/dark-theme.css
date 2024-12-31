@@ -1,8 +1,15 @@
-.myDayLabel{
-    -fx-background-color: #ff0000;
-    -fx-text-fill: #ffffff;
+.sidebar-drawer {
+    -fx-background-color: #2D2D2D;
 }
-.button {
-    -fx-background-color: #333333;
-    -fx-text-fill: #ffffff;
+
+.sidebar-drawer-togglebtn {
+    -fx-background-color: #444444;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+.sidebar-options-bg{
+    -fx-background-color: rgb(45, 45, 45);
+    /* -fx-background-radius: 0 15 15 0; */
 }

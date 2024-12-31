@@ -83,11 +83,72 @@ public class App extends Application {
         showMainApp(primaryStage);
     }
 
+    private void showMainApp(Stage primaryStage) {
+        primaryStage.setTitle("To-Do List App");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+        primaryStage.setWidth(1000);
+        primaryStage.setHeight(700);
+
+
+        // To Detect System theme
+        String theme = SystemThemeDetector.getSystemTheme();
+        String cssFile = theme.equals("dark") ? "dark-theme.css" : "light-theme.css";
+
+        root = new BorderPane();
+        Scene scene = new Scene(root);
+        //To Add Styles according to System Theme
+        scene.getStylesheets().add(getClass().getResource("/styles/"+cssFile).toExternalForm());
+
+        // Sidebar
+        sidebar = new VBox(10);
+        sidebar.setPrefWidth(200);
+        sidebar.setPadding(new Insets(10));
+        sidebar.getStyleClass().add("sidebar-drawer");  
+
+
+        //Toggle Button for Changing size of Sidebar Drawer
+        Button toggleButton = new Button("M");
+        toggleButton.getStyleClass().add("sidebar-drawer-togglebtn");
+        toggleButton.setOnAction(e -> toggleDrawerSize(sidebar, toggleButton));
+        VBox.setMargin(toggleButton, new Insets(5, 2, 5, 2));
+        sidebar.getChildren().add(toggleButton);
+
+        // Add sidebar options
+        addSidebarOption(sidebar, "My Day", "🌞");
+        addSidebarOption(sidebar, "My Notes", "📝");
+        addSidebarOption(sidebar, "Important", "⭐");
+
+        // Separator
+        Separator separator = new Separator();
+        separator.setStyle("-fx-background-color: #444;");
+        separator.setPrefHeight(1);
+        sidebar.getChildren().add(separator);
+
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+        sidebar.getChildren().add(spacer);
+
+        addSidebarOption(sidebar, "Add Group", "+");
+
+        // Main Panel
+        mainPanel = new StackPane();
+        mainPanel.setStyle("-fx-background-color: #232323;");
+        root.setCenter(mainPanel);
+        root.setLeft(sidebar);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        // Default to the "My Day" panel
+        switchToPanel("My Day");
+    }
+
+    //To add Options for Sidebar
     private void addSidebarOption(VBox sidebar, String text, String icon) {
         HBox sidebarOption = new HBox(10);
         sidebarOption.setAlignment(Pos.CENTER_LEFT);
         sidebarOption.setPadding(new Insets(5, 10, 5, 10));
-        sidebarOption.setStyle("-fx-background-color: rgb(45, 45, 45); -fx-background-radius: 10;");
+        sidebar.getStyleClass().add("sidebar-options-bg");  
 
         // Create the icon
         Label iconLabel = new Label(icon);
@@ -131,34 +192,36 @@ public class App extends Application {
 
     private void toggleDrawerSize(VBox sidebar, Button toggleButton) {
         isDrawerExpanded = !isDrawerExpanded;
-
+    
         double targetWidth = isDrawerExpanded ? 200 : 60;
         double initialWidth = sidebar.getWidth();
-
+    
         // Animate the sidebar width
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(sidebar.prefWidthProperty(), initialWidth)),
                 new KeyFrame(Duration.millis(300),
-                        new KeyValue(sidebar.prefWidthProperty(), targetWidth, Interpolator.EASE_BOTH)));
-
+                        new KeyValue(sidebar.prefWidthProperty(), targetWidth, Interpolator.EASE_BOTH))
+        );
+    
         timeline.setOnFinished(e -> {
             toggleButton.setText(isDrawerExpanded ? "M" : "O");
-
-            // Adjust sidebar content
+    
+            // Adjust sidebar content dynamically
             for (Node node : sidebar.getChildren()) {
                 if (node instanceof HBox) {
                     HBox sidebarOption = (HBox) node;
-
+    
                     // Retrieve icon and text
                     Label iconLabel = (Label) sidebarOption.getChildren().get(0); // Always present
                     Label textLabel = sidebarOption.getChildren().size() > 1
                             ? (Label) sidebarOption.getChildren().get(1)
                             : null;
-
+    
                     if (isDrawerExpanded) {
                         // Add textLabel back if not already present
                         if (textLabel == null) {
-                            textLabel = new Label(" Text"); // Adjust text dynamically if needed
+                            String originalText = (String) sidebarOption.getUserData(); // Retrieve stored text
+                            textLabel = new Label(originalText);
                             textLabel.setFont(new Font("Arial", 16));
                             textLabel.setStyle("-fx-text-fill: white;");
                             sidebarOption.getChildren().add(textLabel);
@@ -166,82 +229,18 @@ public class App extends Application {
                     } else {
                         // Remove textLabel if present
                         if (textLabel != null) {
+                            sidebarOption.setUserData(textLabel.getText()); // Store the original text
                             sidebarOption.getChildren().remove(textLabel);
                         }
                     }
                 }
             }
         });
-
+    
         timeline.play();
     }
-
+    
  
-    private void showMainApp(Stage primaryStage) {
-        primaryStage.setTitle("To-Do List App");
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
-        primaryStage.setWidth(1000);
-        primaryStage.setHeight(700);
-
-
-        // Detect system theme
-        String theme = SystemThemeDetector.getSystemTheme();
-        String cssFile = theme.equals("dark") ? "dark-theme.css" : "light-theme.css";
-
-        root = new BorderPane();
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/styles/"+cssFile).toExternalForm());
-        // Toggle button for drawer size
-        // Sidebar
-        sidebar = new VBox(10);
-        sidebar.setPrefWidth(200);
-        sidebar.setPadding(new Insets(10));
-        sidebar.setStyle("-fx-background-color: #2D2D2D;");
-
-        Button toggleButton = new Button("M");
-        toggleButton.setStyle(
-                "-fx-background-color: #444444; -fx-font-size:15; -fx-text-fill: white;  -fx-border-radius: 20px; -fx-background-radius: 20px;");
-        toggleButton.setOnAction(e -> toggleDrawerSize(sidebar, toggleButton));
-        VBox.setMargin(toggleButton, new Insets(5, 2, 5, 2));
-        sidebar.getChildren().add(toggleButton);
-
-        // Add sidebar options
-        addSidebarOption(sidebar, "My Day", "🌞");
-        addSidebarOption(sidebar, "My Notes", "📝");
-        addSidebarOption(sidebar, "Important", "⭐");
-
-        // Separator
-        Separator separator = new Separator();
-        separator.setStyle("-fx-background-color: #444;");
-        separator.setPrefHeight(1);
-        sidebar.getChildren().add(separator);
-
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
-        sidebar.getChildren().add(spacer);
-
-        // Button addGroup=new Button("+");
-        // addGroup.setStyle("-fx-background-color: #444444; -fx-font-size:15;
-        // -fx-text-fill: white; -fx-border-radius: 20px; -fx-background-radius:
-        // 20px;");
-        // VBox.setMargin(toggleButton, new Insets(5, 2, 5, 2));
-
-        // addGroup.setOnAction(e -> toggleGroupBtnSize(sidebar, addGroup));
-        // sidebar.getChildren().add(addGroup);
-        addSidebarOption(sidebar, "Add Group", "+");
-
-        // Main Panel
-        mainPanel = new StackPane();
-        mainPanel.setStyle("-fx-background-color: #232323;");
-        root.setCenter(mainPanel);
-        root.setLeft(sidebar);
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        // Default to the "My Day" panel
-        switchToPanel("My Day");
-    }
 
     private void switchToPanel(String panelName) {
         mainPanel.getChildren().clear();
@@ -259,23 +258,7 @@ public class App extends Application {
             mainPanel.getChildren().add(errorLabel);
         }
     }
-    // private VBox createPanel(String message, String icon) {
-    // VBox panel = new VBox(10);
-    // panel.setAlignment(Pos.CENTER);
-    // panel.setStyle("-fx-background-color: #393939; -fx-border-radius: 10;
-    // -fx-padding: 20;");
-
-    // Label iconLabel = new Label(icon);
-    // iconLabel.setFont(new Font("Arial", 48));
-    // iconLabel.setStyle("-fx-text-fill: white;");
-
-    // Label messageLabel = new Label(message);
-    // messageLabel.setFont(new Font("Arial", 24));
-    // messageLabel.setStyle("-fx-text-fill: white;");
-
-    // panel.getChildren().addAll(iconLabel, messageLabel);
-    // return panel;
-    // }
+  
 
     private Button createRoundedButton(String text) {
         Button button = new Button(text);
