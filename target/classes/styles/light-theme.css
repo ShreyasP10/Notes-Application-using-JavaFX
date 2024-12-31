@@ -1,0 +1,8 @@
+.myDayLabel {
+    -fx-background-color: #1100ff;
+    -fx-text-fill: #000000;
+}
+.button {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #000000;
+}
