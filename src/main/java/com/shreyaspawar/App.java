@@ -84,7 +84,7 @@ public class App extends Application {
     }
 
     private void showMainApp(Stage primaryStage) {
-        primaryStage.setTitle("To-Do List App");
+                                                            primaryStage.setTitle("To-Do List App");
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
         primaryStage.setWidth(1000);
         primaryStage.setHeight(700);
