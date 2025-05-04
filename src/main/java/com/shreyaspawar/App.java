@@ -57,11 +57,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class App extends Application {
 
-    private Stage splashStage;// variable for Splash Screen
+    private Stage splashStage;
 
     private BorderPane root;
     private VBox sidebar;
-    private VBox groupsContainer; // Properly initialized
+    private VBox groupsContainer; 
     private StackPane mainPanel;
     private HashMap<String, VBox> groups = new HashMap<>();
 
@@ -70,7 +70,7 @@ public class App extends Application {
     AtomicInteger taskIdGenerator = new AtomicInteger(1);
 
     private Color currentColor = Color.BLACK;
-    private Pane workspace; // The central pane
+    private Pane workspace; 
 
     Font sharpMaterialFont;
 
@@ -90,35 +90,30 @@ public class App extends Application {
         primaryStage.setHeight(700);
 
 
-        // To Detect System theme
+        
         String theme = SystemThemeDetector.getSystemTheme();
         String cssFile = theme.equals("dark") ? "dark-theme.css" : "light-theme.css";
 
         root = new BorderPane();
         Scene scene = new Scene(root);
-        //To Add Styles according to System Theme
         scene.getStylesheets().add(getClass().getResource("/styles/"+cssFile).toExternalForm());
 
-        // Sidebar
         sidebar = new VBox(10);
         sidebar.setPrefWidth(200);
         sidebar.setPadding(new Insets(10));
         sidebar.getStyleClass().add("sidebar-drawer");  
 
 
-        //Toggle Button for Changing size of Sidebar Drawer
         Button toggleButton = new Button("M");
         toggleButton.getStyleClass().add("sidebar-drawer-togglebtn");
         toggleButton.setOnAction(e -> toggleDrawerSize(sidebar, toggleButton));
         VBox.setMargin(toggleButton, new Insets(5, 2, 5, 2));
         sidebar.getChildren().add(toggleButton);
 
-        // Add sidebar options
         addSidebarOption(sidebar, "My Day", "🌞");
         addSidebarOption(sidebar, "My Notes", "📝");
         addSidebarOption(sidebar, "Important", "⭐");
 
-        // Separator
         Separator separator = new Separator();
         separator.setStyle("-fx-background-color: #444;");
         separator.setPrefHeight(1);
@@ -130,7 +125,7 @@ public class App extends Application {
 
         addSidebarOption(sidebar, "Add Group", "+");
 
-        // Main Panel
+
         mainPanel = new StackPane();
         mainPanel.setStyle("-fx-background-color: #232323;");
         root.setCenter(mainPanel);
@@ -139,11 +134,9 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Default to the "My Day" panel
         switchToPanel("My Day");
     }
 
-    //To add Options for Sidebar
     private void addSidebarOption(VBox sidebar, String text, String icon) {
         HBox sidebarOption = new HBox(10);
         sidebarOption.setAlignment(Pos.CENTER_LEFT);
@@ -167,7 +160,6 @@ public class App extends Application {
             sidebarOption.getChildren().add(iconLabel);
         }
 
-        // Add hover animations
         sidebarOption.setOnMouseEntered(e -> {
             sidebarOption.setStyle("-fx-background-color: #555555; -fx-background-radius: 10;");
             animateHover(sidebarOption, 1.05); // Scale up
@@ -206,30 +198,26 @@ public class App extends Application {
         timeline.setOnFinished(e -> {
             toggleButton.setText(isDrawerExpanded ? "M" : "O");
     
-            // Adjust sidebar content dynamically
             for (Node node : sidebar.getChildren()) {
                 if (node instanceof HBox) {
                     HBox sidebarOption = (HBox) node;
     
-                    // Retrieve icon and text
-                    Label iconLabel = (Label) sidebarOption.getChildren().get(0); // Always present
+                    Label iconLabel = (Label) sidebarOption.getChildren().get(0); 
                     Label textLabel = sidebarOption.getChildren().size() > 1
                             ? (Label) sidebarOption.getChildren().get(1)
                             : null;
     
                     if (isDrawerExpanded) {
-                        // Add textLabel back if not already present
                         if (textLabel == null) {
-                            String originalText = (String) sidebarOption.getUserData(); // Retrieve stored text
+                            String originalText = (String) sidebarOption.getUserData(); 
                             textLabel = new Label(originalText);
                             textLabel.setFont(new Font("Arial", 16));
                             textLabel.setStyle("-fx-text-fill: white;");
                             sidebarOption.getChildren().add(textLabel);
                         }
                     } else {
-                        // Remove textLabel if present
                         if (textLabel != null) {
-                            sidebarOption.setUserData(textLabel.getText()); // Store the original text
+                            sidebarOption.setUserData(textLabel.getText()); 
                             sidebarOption.getChildren().remove(textLabel);
                         }
                     }
@@ -272,7 +260,7 @@ public class App extends Application {
 
         VBox myDayPanel = new VBox(10);
         myDayPanel.setPadding(new Insets(10));
-        myDayPanel.setStyle("-fx-background-color: #232323;"); // Dark background for the panel
+        myDayPanel.setStyle("-fx-background-color: #232323;");
         myDayPanel.setAlignment(Pos.TOP_CENTER);
 
         // Navbar for label and Setting Btn
@@ -369,15 +357,13 @@ public class App extends Application {
                 // Add the task label container to the task list
                 taskList.getChildren().add(taskLabelContainer);
 
-                // Clear the task input field
                 taskInput.clear();
             }
         });
 
-        // Task input area (TextField and Button combined)
         HBox inputArea = createMergedTaskInputArea(taskList);
 
-        VBox.setVgrow(taskScroll, Priority.ALWAYS); // Task list grows to fill space
+        VBox.setVgrow(taskScroll, Priority.ALWAYS); 
         myDayPanel.getChildren().addAll(navbar, taskScroll, inputArea);
 
         return myDayPanel;
@@ -393,19 +379,17 @@ public class App extends Application {
 
     private Button createIconButton(String tooltipText, String iconText) {
         Button button = new Button(iconText);
-        // button.setGraphic(fontStar); // Fix: Set the FontAwesome icon as the button's
+        // button.setGraphic(fontStar); // Set the FontAwesome icon as the button's
         // graphic
         button.setStyle(
                 "-fx-background-color: transparent; " +
-                        "-fx-font-size: 14px; " + // Font size for the icon
-                        "-fx-text-fill: #FFFFFF; " + // Default text color
-                        "-fx-border-radius: 15; " + // Rounded corners
-                        "-fx-padding: 5; " // Padding for click area
+                        "-fx-font-size: 14px; " +
+                        "-fx-text-fill: #FFFFFF; " +
+                        "-fx-border-radius: 15; " +
+                        "-fx-padding: 5; " 
         );
-
-        // Hover effect
         button.setOnMouseEntered(e -> button.setStyle(
-                "-fx-background-color: #444444; " + // Slightly darker background
+                "-fx-background-color: #444444; " +
                         "-fx-font-size: 14px; " +
                         "-fx-text-fill: #FFFFFF; " +
                         "-fx-border-radius: 15; " +
@@ -418,7 +402,6 @@ public class App extends Application {
                         "-fx-border-radius: 15; " +
                         "-fx-padding: 5;"));
 
-        // Add tooltip
         Tooltip tooltip = new Tooltip(tooltipText);
         Tooltip.install(button, tooltip);
 
@@ -426,7 +409,7 @@ public class App extends Application {
     }
 
     private HBox createMergedTaskInputArea(VBox taskList) {
-        // Styled TextField
+
         TextField taskInput = new TextField();
         taskInput.setPromptText("Enter Tasks");
         taskInput.setStyle(
@@ -434,19 +417,18 @@ public class App extends Application {
                         "-fx-text-fill: white; " +
                         "-fx-font-size: 15px; " +
                         "-fx-prompt-text-fill: #AAAAAA; " +
-                        "-fx-background-radius: 20 0 0 20; " + // Rounded left corners
+                        "-fx-background-radius: 20 0 0 20; " +
                         "-fx-border-radius: 20 0 0 20; " +
                         "-fx-padding: 10 20; " +
                         "-fx-border-color: #444444; " +
                         "-fx-border-width: 1;");
 
-        // Styled Button
         Button addTaskButton = new Button("Add Task");
         addTaskButton.setStyle(
                 "-fx-background-color: #2E2E2E; " +
                         "-fx-text-fill: white; " +
                         "-fx-font-size: 15px; " +
-                        "-fx-background-radius: 0 20 20 0; " + // Rounded right corners
+                        "-fx-background-radius: 0 20 20 0; " +
                         "-fx-border-radius: 0 20 20 0; " +
                         "-fx-padding: 10 20; " +
                         "-fx-border-color: #444444; " +
@@ -455,10 +437,9 @@ public class App extends Application {
         addTaskButton.setOnAction(e -> addTaskToList(taskList, taskInput));
         taskInput.setOnAction(e -> addTaskToList(taskList, taskInput));
 
-        // Layout: Merge the TextField and Button
         HBox inputArea = new HBox(taskInput, addTaskButton);
         inputArea.setStyle("-fx-background-color: transparent; -fx-padding: 10;");
-        inputArea.setAlignment(Pos.CENTER); // Center-align the elements
+        inputArea.setAlignment(Pos.CENTER);
         return inputArea;
     }
 
@@ -466,7 +447,6 @@ public class App extends Application {
     private void addTaskToList(VBox taskList, TextField taskInput) {
         String task = taskInput.getText().trim();
         if (!task.isEmpty()) {
-            // Check for duplicates
             boolean isDuplicate = taskList.getChildren().stream()
                     .filter(node -> node instanceof HBox)
                     .map(node -> (HBox) node)
@@ -530,15 +510,12 @@ public class App extends Application {
                             "-fx-border-radius: 8; " +
                             "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.2, 0, 2);"));
 
-            // Add drag-and-drop event handlers
             addAnimatedDragAndDropHandlers(dragButton, fullTaskContainer, taskList);
 
-            // Add button actions
             renameButton.setOnAction(ev -> renameTask(taskLabel));
             deleteButton.setOnAction(ev -> deleteTask(taskList, fullTaskContainer));
             starButton.setOnAction(ev -> markTaskAsImportant(taskLabel.getText(), starButton));
 
-            // Add the full task container to the task list
             taskList.getChildren().add(fullTaskContainer);
             taskInput.clear();
         }
