@@ -246,7 +246,6 @@ public class App extends Application {
             mainPanel.getChildren().add(errorLabel);
         }
     }
-  
 
     private Button createRoundedButton(String text) {
         Button button = new Button(text);
