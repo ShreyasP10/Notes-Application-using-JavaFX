@@ -8,8 +8,7 @@
   <artifactId>noteappfx</artifactId>
   <version>1.0</version>
 
-  <name>noteappfx</name>
-  <!-- FIXME change it to the project's website -->
+  <name>Note Application Using JavaFX</name>
   <url>http://www.example.com</url>
 
   <properties>
