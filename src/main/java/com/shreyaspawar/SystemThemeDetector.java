@@ -15,7 +15,7 @@ public class SystemThemeDetector {
         } else if (os.contains("linux")) {
             return getLinuxTheme();
         }
-        return "light"; // Default to light if detection is not supported
+        return "light"; // Default to light 
     }
 
     private static String getWindowsTheme() {
@@ -34,7 +34,7 @@ public class SystemThemeDetector {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "light"; // Default to light if detection fails
+        return "light"; // Default to light
     }
 
     private static String getMacOSTheme() {
@@ -46,7 +46,7 @@ public class SystemThemeDetector {
                 return line != null && line.equalsIgnoreCase("Dark") ? "dark" : "light";
             }
         } catch (Exception e) {
-            return "light"; // Default to light if detection fails
+            return "light"; // Default to light
         }
     }
 
@@ -59,7 +59,7 @@ public class SystemThemeDetector {
                 return theme.contains("dark") ? "dark" : "light";
             }
         } catch (Exception e) {
-            return "light"; // Default to light if detection fails
+            return "light"; // Default to light 
         }
     }
 }

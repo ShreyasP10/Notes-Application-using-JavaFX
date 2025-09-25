@@ -84,7 +84,7 @@ public class App extends Application {
     }
 
     private void showMainApp(Stage primaryStage) {
-                                                            primaryStage.setTitle("To-Do List App");
+        primaryStage.setTitle("To-Do List App");
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
         primaryStage.setWidth(1000);
         primaryStage.setHeight(700);
@@ -143,12 +143,12 @@ public class App extends Application {
         sidebarOption.setPadding(new Insets(5, 10, 5, 10));
         sidebar.getStyleClass().add("sidebar-options-bg");  
 
-        // Create the icon
+        // Creating  Icon
         Label iconLabel = new Label(icon);
         iconLabel.setFont(new Font("Arial", 18));
         iconLabel.setStyle("-fx-text-fill: white;");
 
-        // Create the text
+        // Creating Text
         Label textLabel = new Label(text);
         textLabel.setFont(new Font("Arial", 16));
         textLabel.setStyle("-fx-text-fill: white;");
@@ -162,14 +162,13 @@ public class App extends Application {
 
         sidebarOption.setOnMouseEntered(e -> {
             sidebarOption.setStyle("-fx-background-color: #555555; -fx-background-radius: 10;");
-            animateHover(sidebarOption, 1.05); // Scale up
+            animateHover(sidebarOption, 1.05); 
         });
         sidebarOption.setOnMouseExited(e -> {
             sidebarOption.setStyle("-fx-background-color: rgb(45, 45, 45); -fx-background-radius: 10;");
-            animateHover(sidebarOption, 1.0); // Scale back
+            animateHover(sidebarOption, 1.0); 
         });
 
-        // Add click event
         sidebarOption.setOnMouseClicked(e -> switchToPanel(text));
 
         sidebar.getChildren().add(sidebarOption);
@@ -188,7 +187,6 @@ public class App extends Application {
         double targetWidth = isDrawerExpanded ? 200 : 60;
         double initialWidth = sidebar.getWidth();
     
-        // Animate the sidebar width
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(sidebar.prefWidthProperty(), initialWidth)),
                 new KeyFrame(Duration.millis(300),
@@ -286,8 +284,7 @@ public class App extends Application {
                         "-fx-background-radius: 50%; " +
                         "-fx-border-radius: 15px;" +
                         "-fx-border-width: 1px;");
-
-        // "-fx-border-color: white; " +
+                        // "-fx-border-color: white; " +
         settingsButton.setMinSize(40, 40);
         settingsButton.setMaxSize(40, 40);
 
