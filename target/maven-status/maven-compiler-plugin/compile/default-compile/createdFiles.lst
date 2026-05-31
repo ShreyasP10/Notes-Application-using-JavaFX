@@ -1,2 +1,14 @@
+com\shreyaspawar\ui\components\CustomDialog.class
+com\shreyaspawar\ui\TaskPanel.class
+com\shreyaspawar\ui\NotesPanel.class
+com\shreyaspawar\model\Task.class
 com\shreyaspawar\SystemThemeDetector.class
+com\shreyaspawar\ui\components\TaskCard.class
+com\shreyaspawar\ui\TitleBar.class
+com\shreyaspawar\ui\components\CustomDialog$TextInputCallback.class
+com\shreyaspawar\ui\Sidebar$PanelSwitchListener.class
 com\shreyaspawar\App.class
+com\shreyaspawar\ui\TaskPanel$1.class
+com\shreyaspawar\theme\ThemeManager$Theme.class
+com\shreyaspawar\theme\ThemeManager.class
+com\shreyaspawar\ui\Sidebar.class

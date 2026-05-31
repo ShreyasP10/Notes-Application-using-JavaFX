@@ -1,8 +1,52 @@
-.myDayLabel {
-    -fx-background-color: #1100ff;
-    -fx-text-fill: #000000;
+.root { -fx-background-color: #f7f7f8; }
+.main-content { -fx-background-color: #f7f7f8; }
+.title-bar { -fx-background-color: #f0f0f0; }
+.title-bar-text { -fx-text-fill: #1a1a1a; }
+.window-button { -fx-text-fill: #6e6e6e; }
+.window-button:hover { -fx-background-color: rgba(0,0,0,0.06); }
+.close-button:hover { -fx-background-color: #e81123; -fx-text-fill: white; }
+
+.sidebar { -fx-background-color: #fafafa; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0.1, 0, 0); }
+.sidebar-toggle { -fx-text-fill: #1a1a1a; }
+.avatar { -fx-background-color: #4f6ef7; }
+.sidebar-username { -fx-text-fill: #1a1a1a; }
+.sidebar-item-active { -fx-background-color: rgba(79,110,247,0.1); -fx-border-color: transparent transparent transparent #4f6ef7; }
+.sidebar-icon { -fx-text-fill: #1a1a1a; }
+.sidebar-label { -fx-text-fill: #1a1a1a; }
+
+.task-panel {
+    -fx-background-color: #f7f7f8;
 }
-.button {
-    -fx-background-color: #e0e0e0;
-    -fx-text-fill: #000000;
-}
+
+.panel-title { -fx-text-fill: #1a1a1a; }
+.subtitle { -fx-text-fill: #6e6e6e; }
+.search-field { -fx-background-color: #ffffff; -fx-text-fill: #1a1a1a; -fx-prompt-text-fill: #aaaaaa; }
+
+.task-card { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0.1, 0, 2); }
+.task-title { -fx-text-fill: #1a1a1a; }
+.task-title.completed { -fx-text-fill: #999999; }
+.due-chip { -fx-background-color: rgba(0,0,0,0.05); -fx-text-fill: #6e6e6e; }
+.important .task-title { -fx-text-fill: #b8860b; }
+.empty-state { -fx-text-fill: #6e6e6e; }
+
+.floating-input { -fx-background-color: #ffffff; -fx-text-fill: #1a1a1a; -fx-prompt-text-fill: #aaaaaa; -fx-border-color: #e0e0e0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0.2, 0, 2); }
+.floating-input:focused { -fx-border-color: #4f6ef7; -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.3), 8, 0.3, 0, 0); }
+.add-task-btn { -fx-background-color: #4f6ef7; -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.3), 8, 0.3, 0, 2); }
+
+.notes-toolbar { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0.1, 0, 2); }
+.tool-btn { -fx-text-fill: #1a1a1a; }
+.tool-btn:hover { -fx-background-color: rgba(0,0,0,0.04); }
+.notes-canvas { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.2, 0, 2); }
+.layers-panel { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0.1, 0, 2); }
+.layer-item { -fx-text-fill: #1a1a1a; }
+
+.dialog-card { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 25, 0.2, 0, 10); }
+.dialog-title { -fx-text-fill: #1a1a1a; }
+.dialog-ok-btn { -fx-background-color: #4f6ef7; }
+.dialog-cancel-btn { -fx-text-fill: #6e6e6e; }
+.danger-btn { -fx-background-color: #e81123; }
+
+.settings-btn { -fx-background-color: #ffffff; -fx-text-fill: #1a1a1a; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0.1, 0, 1); }
+.icon-btn { -fx-text-fill: #6e6e6e; }
+.icon-btn:hover { -fx-background-color: rgba(0,0,0,0.05); }
+.drag-handle { -fx-text-fill: #999999; }

@@ -1,0 +1,247 @@
+* {
+    -fx-font-family: "Segoe UI", "Inter", sans-serif;
+    -fx-font-size: 13px;
+}
+
+.root {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+}
+
+.main-content {
+    -fx-background-radius: 0 0 12 12;
+}
+
+/* Title bar */
+.title-bar {
+    -fx-background-radius: 12 12 0 0;
+    -fx-min-height: 38;
+    -fx-padding: 0 10;
+}
+
+.title-bar-text {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 0 0 0 6;
+}
+
+.window-button {
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+    -fx-padding: 0 14;
+    -fx-min-height: 38;
+    -fx-cursor: hand;
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-radius: 0 0 0 12;
+}
+
+.sidebar-toggle {
+    -fx-background-color: transparent;
+    -fx-font-size: 18px;
+    -fx-padding: 6;
+    -fx-cursor: hand;
+}
+
+.avatar {
+    -fx-background-radius: 18;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+}
+
+.sidebar-username {
+    -fx-font-weight: bold;
+}
+
+.sidebar-item {
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.sidebar-item-active {
+    -fx-border-width: 0 0 0 3;
+    -fx-padding: 8 12 8 9;
+}
+
+.sidebar-icon {
+    -fx-font-size: 18px;
+}
+
+.sidebar-label {
+    -fx-font-size: 14px;
+}
+
+/* Panels */
+.panel-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-font-size: 13px;
+}
+
+.search-field {
+    -fx-background-radius: 10;
+    -fx-padding: 6 10;
+}
+
+/* Task list */
+.task-list-view {
+    -fx-background: transparent;
+    -fx-padding: 5;
+}
+
+.task-list-view .list-cell {
+    -fx-background-color: transparent;
+}
+
+.task-card {
+    -fx-background-radius: 14;
+    -fx-padding: 12;
+    -fx-spacing: 10;
+}
+
+.task-card:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+.task-title {
+    -fx-font-size: 14px;
+}
+
+.task-title.completed {
+    -fx-opacity: 0.5;
+}
+
+.badge {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 6;
+    -fx-background-radius: 8;
+}
+
+.priority-high { -fx-background-color: #e81123; -fx-text-fill: white; }
+.priority-medium { -fx-background-color: #ff8c00; -fx-text-fill: white; }
+.priority-low { -fx-background-color: #2ecc71; -fx-text-fill: white; }
+
+.due-chip {
+    -fx-padding: 2 8;
+    -fx-background-radius: 10;
+    -fx-font-size: 11px;
+}
+
+.due-chip.overdue {
+    -fx-background-color: rgba(232, 17, 35, 0.2);
+    -fx-text-fill: #e81123;
+}
+
+.empty-state {
+    -fx-font-size: 16px;
+    -fx-alignment: center;
+    -fx-padding: 50 0;
+}
+.floating-input {
+    -fx-background-radius: 24;
+    -fx-padding: 14 24;
+    -fx-border-radius: 24;
+    -fx-font-size: 14px;
+    -fx-pref-width: 600px;
+    -fx-max-width: Infinity;
+}
+
+.add-task-btn {
+    -fx-text-fill: white;
+    -fx-background-radius: 24;
+    -fx-min-width: 48;
+    -fx-min-height: 48;
+    -fx-font-size: 22px;
+    -fx-cursor: hand;
+}
+/* Notes */
+.notes-toolbar {
+    -fx-background-radius: 12;
+    -fx-padding: 5;
+}
+
+.tool-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10;
+}
+
+.notes-canvas {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+}
+
+.sticky-note {
+    -fx-background-color: #ffe066;
+    -fx-background-radius: 4;
+    -fx-padding: 5;
+}
+
+.sticky-text {
+    -fx-background-color: transparent;
+}
+
+.layers-panel {
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+}
+
+.layer-item {
+    -fx-padding: 4 0;
+}
+
+/* Dialogs */
+.dialog-card {
+    -fx-background-radius: 20;
+}
+
+.dialog-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.dialog-ok-btn {
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+}
+
+.dialog-cancel-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+}
+
+.danger-btn {
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+}
+
+/* Settings */
+.settings-btn {
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+}
+
+.icon-btn {
+    -fx-background-color: transparent;
+    -fx-padding: 4;
+    -fx-cursor: hand;
+}
+
+.icon-btn:hover {
+    -fx-background-radius: 6;
+}
+
+.drag-handle {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}

@@ -1,15 +1,52 @@
-.sidebar-drawer {
-    -fx-background-color: #2D2D2D;
-}
+.root { -fx-background-color: #181a1b; }
+.main-content { -fx-background-color: #181a1b; }
+.title-bar { -fx-background-color: #202225; }
+.title-bar-text { -fx-text-fill: #ffffff; }
+.window-button { -fx-text-fill: #a0a0a0; }
+.window-button:hover { -fx-background-color: rgba(255,255,255,0.1); }
+.close-button:hover { -fx-background-color: #e81123; -fx-text-fill: white; }
 
-.sidebar-drawer-togglebtn {
-    -fx-background-color: #444444;
-    -fx-font-size: 15;
-    -fx-text-fill: white;
-    -fx-border-radius: 20px;
-    -fx-background-radius: 20px;
+.sidebar { -fx-background-color: #1e1f23; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.1, 0, 0); }
+.sidebar-toggle { -fx-text-fill: #ffffff; }
+.avatar { -fx-background-color: #4f6ef7; }
+.sidebar-username { -fx-text-fill: #ffffff; }
+.sidebar-item-active { -fx-background-color: rgba(79,110,247,0.15); -fx-border-color: transparent transparent transparent #4f6ef7; }
+.sidebar-icon { -fx-text-fill: #ffffff; }
+.sidebar-label { -fx-text-fill: #ffffff; }
+
+.task-panel {
+    -fx-background-color: #181a1b;   
 }
-.sidebar-options-bg{
-    -fx-background-color: rgb(45, 45, 45);
-    /* -fx-background-radius: 0 15 15 0; */
-}
+/* ... rest unchanged */
+.panel-title { -fx-text-fill: #ffffff; }
+.subtitle { -fx-text-fill: #a0a0a0; }
+.search-field { -fx-background-color: #25272a; -fx-text-fill: white; -fx-prompt-text-fill: #a0a0a0; }
+
+.task-card { -fx-background-color: #25272a; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2); }
+.task-title { -fx-text-fill: #ffffff; }
+.task-title.completed { -fx-text-fill: #666666; }
+.due-chip { -fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: #a0a0a0; }
+.important .task-title { -fx-text-fill: #ffd700; }
+.empty-state { -fx-text-fill: #a0a0a0; }
+
+.floating-input { -fx-background-color: #2a2c30; -fx-text-fill: white; -fx-prompt-text-fill: #a0a0a0; -fx-border-color: #3a3c42; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0.2, 0, 2); }
+.floating-input:focused { -fx-border-color: #4f6ef7; -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.4), 8, 0.3, 0, 0); }
+.add-task-btn { -fx-background-color: #4f6ef7; -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.4), 8, 0.3, 0, 2); }
+
+.notes-toolbar { -fx-background-color: #25272a; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0.1, 0, 2); }
+.tool-btn { -fx-text-fill: #ffffff; }
+.tool-btn:hover { -fx-background-color: rgba(255,255,255,0.08); }
+.notes-canvas { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.2, 0, 2); }
+.layers-panel { -fx-background-color: #25272a; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0.1, 0, 2); }
+.layer-item { -fx-text-fill: #ffffff; }
+
+.dialog-card { -fx-background-color: #2e3035; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 25, 0.2, 0, 10); }
+.dialog-title { -fx-text-fill: #ffffff; }
+.dialog-ok-btn { -fx-background-color: #4f6ef7; }
+.dialog-cancel-btn { -fx-text-fill: #a0a0a0; }
+.danger-btn { -fx-background-color: #e81123; }
+
+.settings-btn { -fx-background-color: #25272a; -fx-text-fill: #ffffff; }
+.icon-btn { -fx-text-fill: #a0a0a0; }
+.icon-btn:hover { -fx-background-color: rgba(255,255,255,0.08); }
+.drag-handle { -fx-text-fill: #666666; }
