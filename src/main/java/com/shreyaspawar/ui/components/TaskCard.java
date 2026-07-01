@@ -81,14 +81,12 @@ public class TaskCard extends HBox {
             checkBox.selectedProperty().unbindBidirectional(previousTask.completedProperty());
             previousTask = null;
         }
-        checkBox.selectedProperty().unbind();   // safety
         titleLabel.getStyleClass().remove("completed");
     }
 
     private void updateTask() {
         Task t = taskProperty.get();
-        // Unbind previous task
-        if (previousTask != null) {
+        if (previousTask != null && previousTask != t) {
             checkBox.selectedProperty().unbindBidirectional(previousTask.completedProperty());
         }
         previousTask = t;
@@ -102,8 +100,7 @@ public class TaskCard extends HBox {
         }
 
         titleLabel.setText(t.getTitle());
-        // Bind checkbox
-        checkBox.selectedProperty().unbind();   // ensure clean
+        checkBox.selectedProperty().unbindBidirectional(t.completedProperty());
         checkBox.setSelected(t.isCompleted());
         checkBox.selectedProperty().bindBidirectional(t.completedProperty());
 

@@ -24,6 +24,7 @@ public class NotesPanel extends HBox {
     private String currentTool = "pointer";
     private Color currentColor = Color.BLACK;
     private final VBox layersPanel;
+    private boolean pencilDrew = false;
 
     public NotesPanel() {
         getStyleClass().add("notes-panel");
@@ -49,16 +50,21 @@ public class NotesPanel extends HBox {
         exportBtn.setOnAction(e -> exportCanvas());
         toolbar.getItems().add(exportBtn);
 
-        // Canvas container
+        // Responsive canvas
         canvasContainer = new Pane();
-        canvas = new Canvas(700, 500);
+        canvas = new Canvas();
+        canvas.widthProperty().bind(canvasContainer.widthProperty());
+        canvas.heightProperty().bind(canvasContainer.heightProperty());
         gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        canvas.widthProperty().addListener((obs, old, w) -> clearCanvas());
+        canvas.heightProperty().addListener((obs, old, h) -> clearCanvas());
+        clearCanvas();
+        canvas.getStyleClass().add("notes-canvas");
         canvasContainer.getChildren().add(canvas);
 
         canvasContainer.setOnMousePressed(e -> {
             if ("pencil".equals(currentTool)) {
+                pencilDrew = false;
                 gc.setStroke(currentColor);
                 gc.setLineWidth(2);
                 gc.beginPath();
@@ -67,8 +73,14 @@ public class NotesPanel extends HBox {
         });
         canvasContainer.setOnMouseDragged(e -> {
             if ("pencil".equals(currentTool)) {
+                pencilDrew = true;
                 gc.lineTo(e.getX(), e.getY());
                 gc.stroke();
+            }
+        });
+        canvasContainer.setOnMouseReleased(e -> {
+            if ("pencil".equals(currentTool) && !pencilDrew) {
+                gc.beginPath();
             }
         });
         canvasContainer.setOnMouseClicked(e -> {
@@ -90,6 +102,11 @@ public class NotesPanel extends HBox {
         layersPanel.getChildren().add(layersTitle);
 
         getChildren().addAll(new VBox(10, toolbar, canvasContainer), layersPanel);
+    }
+
+    private void clearCanvas() {
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     private void addStickyNote(double x, double y) {

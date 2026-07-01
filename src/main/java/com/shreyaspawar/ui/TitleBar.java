@@ -18,7 +18,11 @@ public class TitleBar extends HBox {
         getStyleClass().add("title-bar");
         setPrefHeight(38);
 
-        ImageView icon = new ImageView(new Image(getClass().getResourceAsStream("/images/icon.png")));
+        ImageView icon = new ImageView();
+        var iconStream = getClass().getResourceAsStream("/images/icon.png");
+        if (iconStream != null) {
+            icon.setImage(new Image(iconStream));
+        }
         icon.setFitWidth(18);
         icon.setFitHeight(18);
         Label appName = new Label("Notes App");

@@ -10,19 +10,18 @@
 .sidebar-toggle { -fx-text-fill: #1a1a1a; }
 .avatar { -fx-background-color: #4f6ef7; }
 .sidebar-username { -fx-text-fill: #1a1a1a; }
+.sidebar-item:hover { -fx-background-color: rgba(0,0,0,0.04); }
 .sidebar-item-active { -fx-background-color: rgba(79,110,247,0.1); -fx-border-color: transparent transparent transparent #4f6ef7; }
 .sidebar-icon { -fx-text-fill: #1a1a1a; }
 .sidebar-label { -fx-text-fill: #1a1a1a; }
 
-.task-panel {
-    -fx-background-color: #f7f7f8;
-}
-
+.task-panel { -fx-background-color: #f7f7f8; }
 .panel-title { -fx-text-fill: #1a1a1a; }
 .subtitle { -fx-text-fill: #6e6e6e; }
-.search-field { -fx-background-color: #ffffff; -fx-text-fill: #1a1a1a; -fx-prompt-text-fill: #aaaaaa; }
+.search-field { -fx-background-color: #ffffff; -fx-text-fill: #1a1a1a; -fx-prompt-text-fill: #aaaaaa; -fx-border-color: #e0e0e0; -fx-border-radius: 10; }
 
 .task-card { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0.1, 0, 2); }
+.task-card:hover { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 12, 0.15, 0, 4); }
 .task-title { -fx-text-fill: #1a1a1a; }
 .task-title.completed { -fx-text-fill: #999999; }
 .due-chip { -fx-background-color: rgba(0,0,0,0.05); -fx-text-fill: #6e6e6e; }
@@ -36,6 +35,7 @@
 .notes-toolbar { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0.1, 0, 2); }
 .tool-btn { -fx-text-fill: #1a1a1a; }
 .tool-btn:hover { -fx-background-color: rgba(0,0,0,0.04); }
+.tool-btn:selected { -fx-background-color: rgba(79,110,247,0.15); }
 .notes-canvas { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.2, 0, 2); }
 .layers-panel { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0.1, 0, 2); }
 .layer-item { -fx-text-fill: #1a1a1a; }
@@ -47,6 +47,19 @@
 .danger-btn { -fx-background-color: #e81123; }
 
 .settings-btn { -fx-background-color: #ffffff; -fx-text-fill: #1a1a1a; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0.1, 0, 1); }
+.settings-btn:hover { -fx-background-color: #f0f0f0; }
 .icon-btn { -fx-text-fill: #6e6e6e; }
 .icon-btn:hover { -fx-background-color: rgba(0,0,0,0.05); }
 .drag-handle { -fx-text-fill: #999999; }
+
+.scroll-bar .thumb { -fx-background-color: rgba(0,0,0,0.15); }
+.scroll-bar .thumb:hover { -fx-background-color: rgba(0,0,0,0.25); }
+.separator .line { -fx-border-color: rgba(0,0,0,0.08); }
+.choice-box { -fx-background-color: #ffffff; -fx-border-color: #e0e0e0; }
+.choice-box .context-menu { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 4); }
+.choice-box .menu-item:hover { -fx-background-color: rgba(0,0,0,0.04); }
+.tooltip { -fx-background-color: #333333; -fx-text-fill: white; }
+.color-picker { -fx-background-color: #ffffff; -fx-border-color: #e0e0e0; }
+.check-box .box { -fx-background-color: #ffffff; -fx-border-color: #cccccc; }
+.check-box:selected .box { -fx-background-color: #4f6ef7; -fx-border-color: #4f6ef7; }
+.check-box:selected .mark { -fx-background-color: white; }

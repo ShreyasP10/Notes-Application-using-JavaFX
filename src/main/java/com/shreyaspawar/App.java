@@ -22,7 +22,18 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/icon.png")));
+
+        var iconStream = getClass().getResourceAsStream("/images/icon.png");
+        if (iconStream != null) {
+            stage.getIcons().add(new javafx.scene.image.Image(iconStream));
+        }
+
+        String systemTheme = SystemThemeDetector.getSystemTheme();
+        if ("dark".equals(systemTheme)) {
+            ThemeManager.setTheme(ThemeManager.Theme.DARK);
+        } else {
+            ThemeManager.setTheme(ThemeManager.Theme.LIGHT);
+        }
 
         BorderPane root = new BorderPane();
         root.getStyleClass().add("root");

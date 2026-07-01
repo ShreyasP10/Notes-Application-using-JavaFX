@@ -27,6 +27,7 @@ public class TaskPanel extends VBox {
     private final TextField inputField;
     private final TextField searchField;
     private final ChoiceBox<String> tagFilter;
+    private final Label emptyPlaceholder;
 
     public TaskPanel(String title) {
         this(title, null); // no extra filter
@@ -42,6 +43,8 @@ public class TaskPanel extends VBox {
         if (baseFilter != null) {
             filteredTasks.setPredicate(baseFilter);
         }
+
+        emptyPlaceholder = createEmptyPlaceholder();
 
         // Header
         HBox header = new HBox(10);
@@ -97,7 +100,7 @@ public class TaskPanel extends VBox {
         });
         listView.getStyleClass().add("task-list-view");
         VBox.setVgrow(listView, Priority.ALWAYS);
-        listView.setPlaceholder(createEmptyPlaceholder());
+        listView.setPlaceholder(emptyPlaceholder);
 
         // Input area (improved)
         inputField = new TextField();

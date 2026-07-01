@@ -31,6 +31,11 @@
     -fx-padding: 0 14;
     -fx-min-height: 38;
     -fx-cursor: hand;
+    -fx-transition: -fx-background-color 0.15s ease;
+}
+
+.window-button:hover {
+    -fx-transition: -fx-background-color 0.15s ease;
 }
 
 /* Sidebar */
@@ -58,6 +63,11 @@
 .sidebar-item {
     -fx-background-radius: 8;
     -fx-cursor: hand;
+    -fx-transition: -fx-background-color 0.15s ease;
+}
+
+.sidebar-item:hover {
+    -fx-transition: -fx-background-color 0.15s ease;
 }
 
 .sidebar-item-active {
@@ -86,6 +96,7 @@
 .search-field {
     -fx-background-radius: 10;
     -fx-padding: 6 10;
+    -fx-transition: -fx-border-color 0.2s ease;
 }
 
 /* Task list */
@@ -96,17 +107,19 @@
 
 .task-list-view .list-cell {
     -fx-background-color: transparent;
+    -fx-padding: 4 0;
 }
 
 .task-card {
     -fx-background-radius: 14;
     -fx-padding: 12;
     -fx-spacing: 10;
+    -fx-transition: -fx-scale-x 0.15s ease, -fx-scale-y 0.15s ease, -fx-effect 0.15s ease;
 }
 
 .task-card:hover {
-    -fx-scale-x: 1.01;
-    -fx-scale-y: 1.01;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
 }
 
 .task-title {
@@ -144,6 +157,7 @@
     -fx-alignment: center;
     -fx-padding: 50 0;
 }
+
 .floating-input {
     -fx-background-radius: 24;
     -fx-padding: 14 24;
@@ -151,6 +165,8 @@
     -fx-font-size: 14px;
     -fx-pref-width: 600px;
     -fx-max-width: Infinity;
+    -fx-border-width: 2;
+    -fx-transition: -fx-border-color 0.2s ease, -fx-effect 0.2s ease;
 }
 
 .add-task-btn {
@@ -160,7 +176,19 @@
     -fx-min-height: 48;
     -fx-font-size: 22px;
     -fx-cursor: hand;
+    -fx-transition: -fx-scale-x 0.15s ease, -fx-scale-y 0.15s ease;
 }
+
+.add-task-btn:hover {
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+
+.add-task-btn:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
 /* Notes */
 .notes-toolbar {
     -fx-background-radius: 12;
@@ -171,10 +199,11 @@
     -fx-background-color: transparent;
     -fx-background-radius: 6;
     -fx-padding: 6 10;
+    -fx-cursor: hand;
+    -fx-transition: -fx-background-color 0.15s ease;
 }
 
 .notes-canvas {
-    -fx-background-color: white;
     -fx-background-radius: 12;
 }
 
@@ -182,6 +211,7 @@
     -fx-background-color: #ffe066;
     -fx-background-radius: 4;
     -fx-padding: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0.2, 2, 2);
 }
 
 .sticky-text {
@@ -200,6 +230,7 @@
 /* Dialogs */
 .dialog-card {
     -fx-background-radius: 20;
+    -fx-padding: 10;
 }
 
 .dialog-title {
@@ -211,37 +242,124 @@
     -fx-text-fill: white;
     -fx-background-radius: 8;
     -fx-padding: 8 20;
+    -fx-cursor: hand;
+    -fx-transition: -fx-opacity 0.15s ease;
+}
+
+.dialog-ok-btn:hover {
+    -fx-opacity: 0.85;
 }
 
 .dialog-cancel-btn {
     -fx-background-color: transparent;
     -fx-background-radius: 8;
     -fx-padding: 8 20;
+    -fx-cursor: hand;
 }
 
 .danger-btn {
     -fx-text-fill: white;
     -fx-background-radius: 8;
     -fx-padding: 8 20;
+    -fx-cursor: hand;
+    -fx-transition: -fx-opacity 0.15s ease;
+}
+
+.danger-btn:hover {
+    -fx-opacity: 0.85;
 }
 
 /* Settings */
 .settings-btn {
     -fx-background-radius: 8;
     -fx-padding: 10 20;
+    -fx-cursor: hand;
 }
 
 .icon-btn {
+    -fx-background-color: transparent;
+    -fx-padding: 6;
+    -fx-cursor: hand;
+    -fx-background-radius: 6;
+    -fx-transition: -fx-background-color 0.15s ease;
+}
+
+.drag-handle {
     -fx-background-color: transparent;
     -fx-padding: 4;
     -fx-cursor: hand;
 }
 
-.icon-btn:hover {
-    -fx-background-radius: 6;
+/* Scrollbar styling */
+.scroll-bar {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8;
+    -fx-pref-height: 8;
 }
 
-.drag-handle {
+.scroll-bar .thumb {
+    -fx-background-radius: 4;
+    -fx-transition: -fx-background-color 0.15s ease;
+}
+
+.scroll-bar .track {
     -fx-background-color: transparent;
-    -fx-cursor: hand;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+}
+
+/* Separator */
+.separator .line {
+    -fx-border-width: 0.5;
+}
+
+/* ChoiceBox styling */
+.choice-box {
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+}
+
+.choice-box .context-menu {
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+}
+
+.choice-box .menu-item {
+    -fx-background-radius: 6;
+    -fx-padding: 6 12;
+}
+
+/* Tooltip */
+.tooltip {
+    -fx-background-radius: 8;
+    -fx-padding: 6 12;
+    -fx-font-size: 12px;
+}
+
+/* Color picker */
+.color-picker {
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+}
+
+/* CheckBox */
+.check-box .box {
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-padding: 2;
+}
+
+/* Button focus */
+.button:focused,
+.toggle-button:focused {
+    -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.4), 8, 0.3, 0, 0);
 }

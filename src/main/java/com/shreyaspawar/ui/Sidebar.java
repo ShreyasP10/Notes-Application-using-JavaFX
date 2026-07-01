@@ -85,15 +85,27 @@ public class Sidebar extends VBox {
             new KeyFrame(Duration.millis(250),
                 new KeyValue(prefWidthProperty(), target, Interpolator.EASE_BOTH))
         );
-        t.setOnFinished(e -> {
-            for (Node node : itemsBox.getChildren()) {
-                if (node instanceof HBox item && item.getChildren().size() > 1) {
-                    Node label = item.getChildren().get(1);
-                    label.setManaged(expanded);
-                    label.setVisible(expanded);
+
+        for (Node node : itemsBox.getChildren()) {
+            if (node instanceof HBox item && item.getChildren().size() > 1) {
+                Node label = item.getChildren().get(1);
+                FadeTransition ft = new FadeTransition(Duration.millis(150), label);
+                if (expanded) {
+                    label.setManaged(true);
+                    label.setVisible(true);
+                    ft.setFromValue(0);
+                    ft.setToValue(1);
+                } else {
+                    ft.setFromValue(1);
+                    ft.setToValue(0);
+                    ft.setOnFinished(e -> {
+                        label.setManaged(false);
+                        label.setVisible(false);
+                    });
                 }
+                ft.play();
             }
-        });
+        }
         t.play();
     }
 }
