@@ -15,7 +15,7 @@ public class SystemThemeDetector {
         } else if (os.contains("linux")) {
             return getLinuxTheme();
         }
-        return "light"; // Default to light 
+        return "light"; // Default to light
     }
 
     private static String getWindowsTheme() {
@@ -59,7 +59,7 @@ public class SystemThemeDetector {
                 return theme.contains("dark") ? "dark" : "light";
             }
         } catch (Exception e) {
-            return "light"; // Default to light 
+            return "light"; // Default to light
         }
     }
 }

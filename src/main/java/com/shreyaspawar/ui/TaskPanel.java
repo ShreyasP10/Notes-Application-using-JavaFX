@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -51,8 +52,7 @@ public class TaskPanel extends VBox {
         header.setAlignment(Pos.CENTER_LEFT);
         Label titleLabel = new Label(title);
         titleLabel.getStyleClass().add("panel-title");
-        Label dateLabel = new Label(LocalDate.now().getDayOfWeek() + ", " +
-                LocalDate.now().getMonth() + " " + LocalDate.now().getDayOfMonth());
+        Label dateLabel = new Label(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, MMMM d")));
         dateLabel.getStyleClass().add("subtitle");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
