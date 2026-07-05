@@ -16,7 +16,7 @@ public class TitleBar extends HBox {
     public TitleBar(Stage stage) {
         setAlignment(Pos.CENTER_LEFT);
         getStyleClass().add("title-bar");
-        setPrefHeight(38);
+        setPrefHeight(44);
 
         ImageView icon = new ImageView();
         var iconStream = getClass().getResourceAsStream("/images/icon.png");
@@ -31,15 +31,15 @@ public class TitleBar extends HBox {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Button minimizeBtn = new Button("─");
+        Button minimizeBtn = new Button("\u2014");
         minimizeBtn.getStyleClass().add("window-button");
         minimizeBtn.setOnAction(e -> stage.setIconified(true));
 
-        Button maximizeBtn = new Button("☐");
+        Button maximizeBtn = new Button("\u25A1");
         maximizeBtn.getStyleClass().add("window-button");
         maximizeBtn.setOnAction(e -> stage.setMaximized(!stage.isMaximized()));
 
-        Button closeBtn = new Button("✕");
+        Button closeBtn = new Button("\u2715");
         closeBtn.getStyleClass().addAll("window-button", "close-button");
         closeBtn.setOnAction(e -> stage.close());
 

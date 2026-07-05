@@ -18,25 +18,29 @@ public class TaskCard extends HBox {
     private final Label dueChip;
     private final Button starBtn;
     private Runnable deleteAction;
-    private Task previousTask = null;  // track the last bound task
+    private Task previousTask = null;
 
     public TaskCard(Task task) {
         getStyleClass().add("task-card");
-        setPadding(new Insets(12));
+        setPadding(new Insets(14, 16, 14, 16));
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(12);
 
-        Button dragHandle = new Button("☰");
-        dragHandle.getStyleClass().add("drag-handle");
-
         checkBox = new CheckBox();
+        VBox textContainer = new VBox(4);
         titleLabel = new Label();
         titleLabel.getStyleClass().add("task-title");
+        textContainer.getChildren().add(titleLabel);
 
+        HBox metaRow = new HBox(6);
+        metaRow.setAlignment(Pos.CENTER_LEFT);
         priorityBadge = new Label();
-        priorityBadge.getStyleClass().addAll("badge", "priority-badge");
+        priorityBadge.getStyleClass().addAll("badge");
         dueChip = new Label();
         dueChip.getStyleClass().add("due-chip");
+        metaRow.getChildren().addAll(priorityBadge, dueChip);
+        metaRow.setVisible(false);
+        textContainer.getChildren().add(metaRow);
 
         starBtn = new Button();
         starBtn.getStyleClass().add("icon-btn");
@@ -48,8 +52,11 @@ public class TaskCard extends HBox {
             }
         });
 
-        Button deleteBtn = new Button("🗑");
+        Button deleteBtn = new Button("\uD83D\uDDD1");
         deleteBtn.getStyleClass().add("icon-btn");
+        deleteBtn.setOpacity(0);
+        deleteBtn.setOnMouseEntered(e -> deleteBtn.setOpacity(1));
+        deleteBtn.setOnMouseExited(e -> deleteBtn.setOpacity(0));
         deleteBtn.setOnAction(e -> {
             if (deleteAction != null) deleteAction.run();
         });
@@ -57,9 +64,13 @@ public class TaskCard extends HBox {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        getChildren().addAll(dragHandle, checkBox, titleLabel, priorityBadge, dueChip, starBtn, deleteBtn);
+        getChildren().addAll(checkBox, textContainer, spacer, starBtn, deleteBtn);
+
+        setOnMouseEntered(e -> deleteBtn.setOpacity(1));
+        setOnMouseExited(e -> deleteBtn.setOpacity(0));
 
         taskProperty.addListener((obs, old, newTask) -> updateTask());
+        metaRow.managedProperty().bind(metaRow.visibleProperty());
         setTask(task);
     }
 
@@ -75,7 +86,6 @@ public class TaskCard extends HBox {
         return taskProperty.get();
     }
 
-    /** Clean up bindings before reuse */
     public void unbind() {
         if (previousTask != null) {
             checkBox.selectedProperty().unbindBidirectional(previousTask.completedProperty());
@@ -107,7 +117,6 @@ public class TaskCard extends HBox {
         titleLabel.getStyleClass().remove("completed");
         if (t.isCompleted()) titleLabel.getStyleClass().add("completed");
 
-        // Priority badge
         String priority = t.getPriority();
         if (priority != null && !priority.isEmpty()) {
             priorityBadge.setText(priority.substring(0, 1).toUpperCase());
@@ -122,7 +131,6 @@ public class TaskCard extends HBox {
             priorityBadge.setVisible(false);
         }
 
-        // Due date chip
         LocalDate due = t.getDueDate();
         if (due != null) {
             dueChip.setText(due.format(DateTimeFormatter.ofPattern("MMM d")));
@@ -136,16 +144,21 @@ public class TaskCard extends HBox {
         }
 
         updateImportant();
+
+        HBox metaRow = (HBox) ((VBox) titleLabel.getParent()).getChildren().get(1);
+        metaRow.setVisible(priorityBadge.isVisible() || dueChip.isVisible());
     }
 
     private void updateImportant() {
         Task t = taskProperty.get();
         if (t == null) return;
-        starBtn.setText(t.isImportant() ? "★" : "☆");
+        starBtn.setText(t.isImportant() ? "\u2605" : "\u2606");
         if (t.isImportant()) {
             getStyleClass().add("important");
+            starBtn.getStyleClass().add("star-btn-active");
         } else {
             getStyleClass().remove("important");
+            starBtn.getStyleClass().remove("star-btn-active");
         }
     }
 }

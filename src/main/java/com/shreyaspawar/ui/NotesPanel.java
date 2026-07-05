@@ -2,6 +2,7 @@ package com.shreyaspawar.ui;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -21,37 +22,63 @@ public class NotesPanel extends HBox {
     private Pane canvasContainer;
     private Canvas canvas;
     private GraphicsContext gc;
-    private String currentTool = "pointer";
+    private String currentTool = "pencil";
     private Color currentColor = Color.BLACK;
     private final VBox layersPanel;
     private boolean pencilDrew = false;
 
     public NotesPanel() {
         getStyleClass().add("notes-panel");
-        setSpacing(15);
-        setPadding(new Insets(15));
+        setSpacing(16);
+        setPadding(new Insets(20));
 
-        // Toolbar
+        VBox editorArea = new VBox(12);
+        editorArea.setPrefWidth(600);
+        HBox.setHgrow(editorArea, Priority.ALWAYS);
+
         ToolBar toolbar = new ToolBar();
         toolbar.getStyleClass().add("notes-toolbar");
-        String[] tools = {"🖱 pointer", "✏ pencil", "▭ rect", "◯ circle", "→ line", "A text", "📌 sticky"};
-        for (String t : tools) {
-            Button btn = new Button(t);
+        String[][] tools = {
+            {"\u270F", "pencil"},
+            {"\u25AD", "rect"},
+            {"\u25EF", "circle"},
+            {"\u2192", "line"},
+            {"A", "text"},
+            {"\uD83D\uDCCC", "sticky"}
+        };
+        ToggleGroup toolGroup = new ToggleGroup();
+        for (String[] t : tools) {
+            ToggleButton btn = new ToggleButton(t[0]);
             btn.getStyleClass().add("tool-btn");
-            btn.setOnAction(e -> currentTool = t.split(" ")[1]);
+            btn.setTooltip(new Tooltip(t[1]));
+            btn.setToggleGroup(toolGroup);
+            btn.setUserData(t[1]);
+            btn.setOnAction(e -> currentTool = (String) btn.getUserData());
             toolbar.getItems().add(btn);
         }
+        toolGroup.getToggles().get(0).setSelected(true);
+
+        toolbar.getItems().add(new Separator());
         ColorPicker colorPicker = new ColorPicker(Color.BLACK);
+        colorPicker.setPrefWidth(40);
         colorPicker.setOnAction(e -> currentColor = colorPicker.getValue());
         toolbar.getItems().add(colorPicker);
 
+        toolbar.getItems().add(new Separator());
+        Button undoBtn = new Button("\u21A9");
+        undoBtn.getStyleClass().add("tool-btn");
+        undoBtn.setTooltip(new Tooltip("Clear canvas"));
+        undoBtn.setOnAction(e -> gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()));
+        toolbar.getItems().add(undoBtn);
+
         Button exportBtn = new Button("Export PNG");
         exportBtn.getStyleClass().add("tool-btn");
+        exportBtn.setTooltip(new Tooltip("Save as PNG"));
         exportBtn.setOnAction(e -> exportCanvas());
         toolbar.getItems().add(exportBtn);
 
-        // Responsive canvas
         canvasContainer = new Pane();
+        canvasContainer.getStyleClass().add("notes-canvas");
         canvas = new Canvas();
         canvas.widthProperty().bind(canvasContainer.widthProperty());
         canvas.heightProperty().bind(canvasContainer.heightProperty());
@@ -59,8 +86,8 @@ public class NotesPanel extends HBox {
         canvas.widthProperty().addListener((obs, old, w) -> clearCanvas());
         canvas.heightProperty().addListener((obs, old, h) -> clearCanvas());
         clearCanvas();
-        canvas.getStyleClass().add("notes-canvas");
         canvasContainer.getChildren().add(canvas);
+        VBox.setVgrow(canvasContainer, Priority.ALWAYS);
 
         canvasContainer.setOnMousePressed(e -> {
             if ("pencil".equals(currentTool)) {
@@ -84,7 +111,7 @@ public class NotesPanel extends HBox {
             }
         });
         canvasContainer.setOnMouseClicked(e -> {
-            if ("pointer".equals(currentTool) || "pencil".equals(currentTool)) return;
+            if ("pencil".equals(currentTool)) return;
             double x = e.getX(), y = e.getY();
             if ("sticky".equals(currentTool)) {
                 addStickyNote(x, y);
@@ -93,15 +120,19 @@ public class NotesPanel extends HBox {
             }
         });
 
-        // Layers panel
+        editorArea.getChildren().addAll(toolbar, canvasContainer);
+
         layersPanel = new VBox(10);
         layersPanel.getStyleClass().add("layers-panel");
-        layersPanel.setPrefWidth(160);
+        layersPanel.setPrefWidth(180);
         Label layersTitle = new Label("Layers");
         layersTitle.getStyleClass().add("panel-title");
-        layersPanel.getChildren().add(layersTitle);
+        layersTitle.setStyle("-fx-font-size: 16px;");
+        Label layersHint = new Label("Shapes & notes appear here");
+        layersHint.setStyle("-fx-font-size: 11px; -fx-opacity: 0.5;");
+        layersPanel.getChildren().addAll(layersTitle, layersHint);
 
-        getChildren().addAll(new VBox(10, toolbar, canvasContainer), layersPanel);
+        getChildren().addAll(editorArea, layersPanel);
     }
 
     private void clearCanvas() {
@@ -113,11 +144,11 @@ public class NotesPanel extends HBox {
         StackPane sticky = new StackPane();
         sticky.setLayoutX(x);
         sticky.setLayoutY(y);
-        sticky.setPrefSize(140, 100);
+        sticky.setPrefSize(150, 110);
         sticky.getStyleClass().add("sticky-note");
         TextArea text = new TextArea("Note...");
         text.setWrapText(true);
-        text.setPrefSize(120, 80);
+        text.setPrefSize(130, 90);
         text.getStyleClass().add("sticky-text");
         sticky.getChildren().add(text);
         canvasContainer.getChildren().add(sticky);
@@ -127,18 +158,28 @@ public class NotesPanel extends HBox {
 
     private void addShape(double x, double y) {
         Node shape = null;
+        String layerName = "";
         switch (currentTool) {
-            case "rect" -> shape = new Rectangle(x, y, 100, 60);
-            case "circle" -> shape = new Circle(x, y, 40);
+            case "rect" -> {
+                shape = new Rectangle(x, y, 100, 60);
+                layerName = "Rectangle";
+            }
+            case "circle" -> {
+                shape = new Circle(x, y, 40);
+                layerName = "Circle";
+            }
             case "line" -> {
                 Line l = new Line(x, y, x + 80, y);
                 l.setStroke(currentColor);
                 shape = l;
+                layerName = "Line";
             }
             case "text" -> {
                 Text t = new Text(x, y, "Edit me");
                 t.setFill(currentColor);
+                t.setStyle("-fx-font-size: 16px;");
                 shape = t;
+                layerName = "Text";
             }
         }
         if (shape != null) {
@@ -149,7 +190,7 @@ public class NotesPanel extends HBox {
             }
             canvasContainer.getChildren().add(shape);
             makeDraggable(shape);
-            addLayer(currentTool.substring(0, 1).toUpperCase() + currentTool.substring(1));
+            addLayer(layerName);
         }
     }
 
@@ -158,6 +199,7 @@ public class NotesPanel extends HBox {
         node.setOnMousePressed(e -> {
             offset[0] = e.getSceneX() - node.getLayoutX();
             offset[1] = e.getSceneY() - node.getLayoutY();
+            node.toFront();
         });
         node.setOnMouseDragged(e -> {
             node.setLayoutX(e.getSceneX() - offset[0]);
@@ -166,8 +208,14 @@ public class NotesPanel extends HBox {
     }
 
     private void addLayer(String name) {
-        Label layerItem = new Label(name);
+        HBox layerItem = new HBox(8);
+        layerItem.setAlignment(Pos.CENTER_LEFT);
         layerItem.getStyleClass().add("layer-item");
+        Label dot = new Label("\u25CF");
+        dot.setStyle("-fx-font-size: 8px; -fx-text-fill: #4f6ef7;");
+        Label nameLabel = new Label(name);
+        nameLabel.setStyle("-fx-font-size: 12px;");
+        layerItem.getChildren().addAll(dot, nameLabel);
         layersPanel.getChildren().add(layerItem);
     }
 

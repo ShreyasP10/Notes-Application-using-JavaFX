@@ -31,15 +31,14 @@ public class TaskPanel extends VBox {
     private final Label emptyPlaceholder;
 
     public TaskPanel(String title) {
-        this(title, null); // no extra filter
+        this(title, null);
     }
 
     public TaskPanel(String title, Predicate<Task> baseFilter) {
         getStyleClass().add("task-panel");
-        setPadding(new Insets(20));
-        setSpacing(15);
+        setPadding(new Insets(24, 32, 24, 32));
+        setSpacing(18);
 
-        // Apply base filter
         filteredTasks = new FilteredList<>(masterTasks);
         if (baseFilter != null) {
             filteredTasks.setPredicate(baseFilter);
@@ -47,35 +46,39 @@ public class TaskPanel extends VBox {
 
         emptyPlaceholder = createEmptyPlaceholder();
 
-        // Header
-        HBox header = new HBox(10);
+        HBox header = new HBox(12);
         header.setAlignment(Pos.CENTER_LEFT);
+        VBox headerText = new VBox(4);
         Label titleLabel = new Label(title);
         titleLabel.getStyleClass().add("panel-title");
         Label dateLabel = new Label(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, MMMM d")));
         dateLabel.getStyleClass().add("subtitle");
+        headerText.getChildren().addAll(titleLabel, dateLabel);
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
+        HBox filterBar = new HBox(8);
+        filterBar.setAlignment(Pos.CENTER_LEFT);
         searchField = new TextField();
-        searchField.setPromptText("Search...");
+        searchField.setPromptText("Search tasks...");
         searchField.getStyleClass().add("search-field");
+        searchField.setPrefWidth(180);
         tagFilter = new ChoiceBox<>();
-        tagFilter.setPrefWidth(100);
+        tagFilter.setPrefWidth(110);
         tagFilter.setTooltip(new Tooltip("Filter by tag"));
         tagFilter.getItems().add("All");
         tagFilter.setValue("All");
+        filterBar.getChildren().addAll(tagFilter, searchField);
 
-        header.getChildren().addAll(titleLabel, dateLabel, spacer, tagFilter, searchField);
+        header.getChildren().addAll(headerText, spacer, filterBar);
 
-        // Priority sorting
         sortedTasks = new SortedList<>(filteredTasks, (t1, t2) -> {
             int p1 = priorityValue(t1.getPriority());
             int p2 = priorityValue(t2.getPriority());
             return Integer.compare(p2, p1);
         });
 
-        // Virtualized task list
         listView = new ListView<>(sortedTasks);
         listView.setCellFactory(param -> new ListCell<>() {
             private final TaskCard card = new TaskCard(null);
@@ -89,10 +92,10 @@ public class TaskPanel extends VBox {
             protected void updateItem(Task task, boolean empty) {
                 super.updateItem(task, empty);
                 if (empty || task == null) {
-                    card.unbind();   // clean up old bindings
+                    card.unbind();
                     setGraphic(null);
                 } else {
-                    card.unbind();   // unbind previous
+                    card.unbind();
                     card.setTask(task);
                     setGraphic(card);
                 }
@@ -102,27 +105,28 @@ public class TaskPanel extends VBox {
         VBox.setVgrow(listView, Priority.ALWAYS);
         listView.setPlaceholder(emptyPlaceholder);
 
-        // Input area (improved)
+        HBox inputBox = new HBox(12);
+        inputBox.setAlignment(Pos.CENTER);
+        inputBox.setPadding(new Insets(8, 0, 0, 0));
         inputField = new TextField();
-        inputField.setPromptText("Add a new task...");
+        inputField.setPromptText("Add a new task... (use !high, @2024-12-25, #tag)");
         inputField.getStyleClass().add("floating-input");
         Button addBtn = new Button("+");
         addBtn.getStyleClass().add("add-task-btn");
         addBtn.setOnAction(e -> addTask());
         inputField.setOnAction(e -> addTask());
-        HBox inputBox = new HBox(10, inputField, addBtn);
-        inputBox.setAlignment(Pos.CENTER);
-        inputBox.setPadding(new Insets(15, 0, 0, 0));
         HBox.setHgrow(inputField, Priority.ALWAYS);
+        inputBox.getChildren().addAll(inputField, addBtn);
 
-        getChildren().addAll(header, listView, inputBox);
+        Label hint = new Label("Ctrl+N to focus input  \u00B7  !priority  @date  #tag");
+        hint.setStyle("-fx-font-size: 11px; -fx-opacity: 0.5; -fx-padding: 0 0 0 4;");
 
-        // Search & filter logic (default tag to "All" if null)
+        getChildren().addAll(header, listView, inputBox, hint);
+
         searchField.textProperty().addListener((obs, old, text) -> updateFilters());
         tagFilter.setOnAction(e -> updateFilters());
         updateFilters();
 
-        // Keyboard shortcut
         setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN).match(e)) {
                 inputField.requestFocus();
@@ -137,7 +141,6 @@ public class TaskPanel extends VBox {
         if (text.isEmpty()) return;
 
         Task task = new Task(text);
-        // Quick parsing
         if (text.contains("!")) {
             int start = text.indexOf("!") + 1;
             int end = text.indexOf(" ", start);
@@ -172,7 +175,7 @@ public class TaskPanel extends VBox {
     private void updateFilters() {
         String searchText = searchField.getText().toLowerCase().trim();
         String selectedTag = tagFilter.getValue();
-        if (selectedTag == null) selectedTag = "All";   // prevents NPE
+        if (selectedTag == null) selectedTag = "All";
 
         final String finalTag = selectedTag;
         filteredTasks.setPredicate(task -> {
@@ -209,11 +212,11 @@ public class TaskPanel extends VBox {
     }
 
     private Label createEmptyPlaceholder() {
-        Label label = new Label("🎉 No tasks found\nAdd something productive.");
+        Label label = new Label("\uD83C\uDF89 No tasks yet\nAdd your first task above!");
         label.getStyleClass().add("empty-state");
         label.setAlignment(Pos.CENTER);
         label.setMaxWidth(Double.MAX_VALUE);
-        label.setPadding(new Insets(40));
+        label.setPadding(new Insets(50));
         return label;
     }
 }
