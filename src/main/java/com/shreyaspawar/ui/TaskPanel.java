@@ -1,5 +1,6 @@
 package com.shreyaspawar.ui;
 
+import com.shreyaspawar.data.DataManager;
 import com.shreyaspawar.model.Task;
 import com.shreyaspawar.ui.components.CustomDialog;
 import com.shreyaspawar.ui.components.TaskCard;
@@ -17,7 +18,9 @@ import javafx.scene.layout.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.function.Predicate;
 
 public class TaskPanel extends VBox {
@@ -29,20 +32,19 @@ public class TaskPanel extends VBox {
     private final TextField searchField;
     private final ChoiceBox<String> tagFilter;
     private final Label emptyPlaceholder;
+    private final Predicate<Task> baseFilter;
 
     public TaskPanel(String title) {
         this(title, null);
     }
 
     public TaskPanel(String title, Predicate<Task> baseFilter) {
+        this.baseFilter = baseFilter;
         getStyleClass().add("task-panel");
         setPadding(new Insets(24, 32, 24, 32));
         setSpacing(18);
 
         filteredTasks = new FilteredList<>(masterTasks);
-        if (baseFilter != null) {
-            filteredTasks.setPredicate(baseFilter);
-        }
 
         emptyPlaceholder = createEmptyPlaceholder();
 
@@ -127,6 +129,22 @@ public class TaskPanel extends VBox {
         tagFilter.setOnAction(e -> updateFilters());
         updateFilters();
 
+        masterTasks.addListener((javafx.collections.ListChangeListener<Task>) c -> {
+            while (c.next()) {
+                if (c.wasAdded()) {
+                    for (Task t : c.getAddedSubList()) {
+                        attachTaskListeners(t);
+                    }
+                }
+                if (c.wasRemoved()) {
+                    for (Task t : c.getRemoved()) {
+                        detachTaskListeners(t);
+                    }
+                }
+            }
+            saveData();
+        });
+
         setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN).match(e)) {
                 inputField.requestFocus();
@@ -134,35 +152,41 @@ public class TaskPanel extends VBox {
             }
         });
         setFocusTraversable(true);
+
+        loadData();
     }
 
     private void addTask() {
         String text = inputField.getText().trim();
         if (text.isEmpty()) return;
 
-        Task task = new Task(text);
-        if (text.contains("!")) {
-            int start = text.indexOf("!") + 1;
-            int end = text.indexOf(" ", start);
-            if (end == -1) end = text.length();
-            task.setPriority(text.substring(start, end).toLowerCase());
-        }
-        if (text.contains("@")) {
-            int start = text.indexOf("@") + 1;
-            int end = text.indexOf(" ", start);
-            if (end == -1) end = text.length();
-            try { task.setDueDate(LocalDate.parse(text.substring(start, end))); } catch (Exception ignored) {}
-        }
-        if (text.contains("#")) {
-            int start = text.indexOf("#") + 1;
-            int end = text.indexOf(" ", start);
-            if (end == -1) end = text.length();
-            task.setTag(text.substring(start, end));
-        }
+        Task task = new Task(parseTitle(text));
+        parseMetadata(text, task);
 
         masterTasks.add(task);
         inputField.clear();
         updateTagFilter();
+    }
+
+    private String parseTitle(String text) {
+        return text.replaceAll("![^\\s]*", "")
+                   .replaceAll("@[^\\s]*", "")
+                   .replaceAll("#[^\\s]*", "")
+                   .replaceAll("\\s+", " ")
+                   .trim();
+    }
+
+    private void parseMetadata(String text, Task task) {
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("!([^\\s]+)").matcher(text);
+        if (m.find()) task.setPriority(m.group(1).toLowerCase());
+
+        m = java.util.regex.Pattern.compile("@([^\\s]+)").matcher(text);
+        if (m.find()) {
+            try { task.setDueDate(LocalDate.parse(m.group(1))); } catch (Exception ignored) {}
+        }
+
+        m = java.util.regex.Pattern.compile("#([^\\s]+)").matcher(text);
+        if (m.find()) task.setTag(m.group(1));
     }
 
     private void deleteTask(Task task) {
@@ -179,6 +203,7 @@ public class TaskPanel extends VBox {
 
         final String finalTag = selectedTag;
         filteredTasks.setPredicate(task -> {
+            if (baseFilter != null && !baseFilter.test(task)) return false;
             boolean tagOk = finalTag.equals("All") || finalTag.equals(task.getTag());
             boolean searchOk = searchText.isEmpty() || task.getTitle().toLowerCase().contains(searchText);
             return tagOk && searchOk;
@@ -218,5 +243,42 @@ public class TaskPanel extends VBox {
         label.setMaxWidth(Double.MAX_VALUE);
         label.setPadding(new Insets(50));
         return label;
+    }
+
+    private final Map<Task, javafx.beans.value.ChangeListener<Object>> taskListeners = new WeakHashMap<>();
+
+    private void attachTaskListeners(Task t) {
+        javafx.beans.value.ChangeListener<Object> listener = (obs, old, val) -> saveData();
+        t.completedProperty().addListener(listener);
+        t.importantProperty().addListener(listener);
+        t.titleProperty().addListener(listener);
+        t.priorityProperty().addListener(listener);
+        t.dueDateProperty().addListener(listener);
+        t.tagProperty().addListener(listener);
+        taskListeners.put(t, listener);
+    }
+
+    private void detachTaskListeners(Task t) {
+        javafx.beans.value.ChangeListener<Object> listener = taskListeners.remove(t);
+        if (listener != null) {
+            t.completedProperty().removeListener(listener);
+            t.importantProperty().removeListener(listener);
+            t.titleProperty().removeListener(listener);
+            t.priorityProperty().removeListener(listener);
+            t.dueDateProperty().removeListener(listener);
+            t.tagProperty().removeListener(listener);
+        }
+    }
+
+    private void saveData() {
+        DataManager.saveTasks(masterTasks);
+    }
+
+    private void loadData() {
+        java.util.List<Task> saved = DataManager.loadTasks();
+        if (!saved.isEmpty()) {
+            masterTasks.setAll(saved);
+            updateTagFilter();
+        }
     }
 }

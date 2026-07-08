@@ -80,12 +80,10 @@ public class NotesPanel extends HBox {
         canvasContainer = new Pane();
         canvasContainer.getStyleClass().add("notes-canvas");
         canvas = new Canvas();
+        gc = canvas.getGraphicsContext2D();
+        clearCanvas();
         canvas.widthProperty().bind(canvasContainer.widthProperty());
         canvas.heightProperty().bind(canvasContainer.heightProperty());
-        gc = canvas.getGraphicsContext2D();
-        canvas.widthProperty().addListener((obs, old, w) -> clearCanvas());
-        canvas.heightProperty().addListener((obs, old, h) -> clearCanvas());
-        clearCanvas();
         canvasContainer.getChildren().add(canvas);
         VBox.setVgrow(canvasContainer, Priority.ALWAYS);
 

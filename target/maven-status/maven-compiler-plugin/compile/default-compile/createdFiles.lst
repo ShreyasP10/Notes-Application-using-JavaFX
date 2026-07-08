@@ -6,6 +6,7 @@ com\shreyaspawar\SystemThemeDetector.class
 com\shreyaspawar\ui\components\TaskCard.class
 com\shreyaspawar\ui\TitleBar.class
 com\shreyaspawar\ui\components\CustomDialog$TextInputCallback.class
+com\shreyaspawar\data\DataManager.class
 com\shreyaspawar\ui\Sidebar$PanelSwitchListener.class
 com\shreyaspawar\App.class
 com\shreyaspawar\ui\TaskPanel$1.class

@@ -97,20 +97,19 @@ public class Sidebar extends VBox {
         double target = expanded ? expandedWidth : collapsedWidth;
 
         if (expanded) {
-            setPrefWidth(collapsedWidth);
-            animateWidth(target);
             for (Node node : itemsBox.getChildren()) {
                 if (node instanceof HBox item && item.getChildren().size() > 1) {
                     Node label = item.getChildren().get(1);
-                    item.setPadding(new Insets(10, 14, 10, 14));
                     label.setManaged(true);
                     label.setVisible(true);
+                    label.setOpacity(0);
                     FadeTransition ft = new FadeTransition(Duration.millis(200), label);
                     ft.setFromValue(0);
                     ft.setToValue(1);
                     ft.play();
                 }
             }
+            animateWidth(target);
         } else {
             for (Node node : itemsBox.getChildren()) {
                 if (node instanceof HBox item && item.getChildren().size() > 1) {

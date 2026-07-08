@@ -17,6 +17,7 @@ public class TaskCard extends HBox {
     private final Label priorityBadge;
     private final Label dueChip;
     private final Button starBtn;
+    private final HBox metaRow;
     private Runnable deleteAction;
     private Task previousTask = null;
 
@@ -32,7 +33,7 @@ public class TaskCard extends HBox {
         titleLabel.getStyleClass().add("task-title");
         textContainer.getChildren().add(titleLabel);
 
-        HBox metaRow = new HBox(6);
+        metaRow = new HBox(6);
         metaRow.setAlignment(Pos.CENTER_LEFT);
         priorityBadge = new Label();
         priorityBadge.getStyleClass().addAll("badge");
@@ -144,8 +145,8 @@ public class TaskCard extends HBox {
         }
 
         updateImportant();
+        t.importantProperty().addListener((obs, old, val) -> updateImportant());
 
-        HBox metaRow = (HBox) ((VBox) titleLabel.getParent()).getChildren().get(1);
         metaRow.setVisible(priorityBadge.isVisible() || dueChip.isVisible());
     }
 
