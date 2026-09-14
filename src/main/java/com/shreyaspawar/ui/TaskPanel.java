@@ -24,7 +24,7 @@ import java.util.WeakHashMap;
 import java.util.function.Predicate;
 
 public class TaskPanel extends VBox {
-    private final ObservableList<Task> masterTasks = FXCollections.observableArrayList();
+    private final ObservableList<Task> masterTasks;
     private final FilteredList<Task> filteredTasks;
     private final SortedList<Task> sortedTasks;
     private final ListView<Task> listView;
@@ -40,6 +40,7 @@ public class TaskPanel extends VBox {
 
     public TaskPanel(String title, Predicate<Task> baseFilter) {
         this.baseFilter = baseFilter;
+        this.masterTasks = DataManager.getTasks();
         getStyleClass().add("task-panel");
         setPadding(new Insets(24, 32, 24, 32));
         setSpacing(18);
@@ -130,20 +131,9 @@ public class TaskPanel extends VBox {
         updateFilters();
 
         masterTasks.addListener((javafx.collections.ListChangeListener<Task>) c -> {
-            while (c.next()) {
-                if (c.wasAdded()) {
-                    for (Task t : c.getAddedSubList()) {
-                        attachTaskListeners(t);
-                    }
-                }
-                if (c.wasRemoved()) {
-                    for (Task t : c.getRemoved()) {
-                        detachTaskListeners(t);
-                    }
-                }
-            }
-            saveData();
+            updateTagFilter();
         });
+        updateTagFilter();
 
         setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN).match(e)) {
@@ -152,8 +142,6 @@ public class TaskPanel extends VBox {
             }
         });
         setFocusTraversable(true);
-
-        loadData();
     }
 
     private void addTask() {
@@ -165,7 +153,6 @@ public class TaskPanel extends VBox {
 
         masterTasks.add(task);
         inputField.clear();
-        updateTagFilter();
     }
 
     private String parseTitle(String text) {
@@ -192,7 +179,6 @@ public class TaskPanel extends VBox {
     private void deleteTask(Task task) {
         CustomDialog.showConfirm("Delete Task", "This task will be permanently deleted.", () -> {
             masterTasks.remove(task);
-            updateTagFilter();
         });
     }
 
@@ -228,6 +214,7 @@ public class TaskPanel extends VBox {
     }
 
     private int priorityValue(String p) {
+        if (p == null) return 0;
         return switch (p) {
             case "high" -> 3;
             case "medium" -> 2;
@@ -243,42 +230,5 @@ public class TaskPanel extends VBox {
         label.setMaxWidth(Double.MAX_VALUE);
         label.setPadding(new Insets(50));
         return label;
-    }
-
-    private final Map<Task, javafx.beans.value.ChangeListener<Object>> taskListeners = new WeakHashMap<>();
-
-    private void attachTaskListeners(Task t) {
-        javafx.beans.value.ChangeListener<Object> listener = (obs, old, val) -> saveData();
-        t.completedProperty().addListener(listener);
-        t.importantProperty().addListener(listener);
-        t.titleProperty().addListener(listener);
-        t.priorityProperty().addListener(listener);
-        t.dueDateProperty().addListener(listener);
-        t.tagProperty().addListener(listener);
-        taskListeners.put(t, listener);
-    }
-
-    private void detachTaskListeners(Task t) {
-        javafx.beans.value.ChangeListener<Object> listener = taskListeners.remove(t);
-        if (listener != null) {
-            t.completedProperty().removeListener(listener);
-            t.importantProperty().removeListener(listener);
-            t.titleProperty().removeListener(listener);
-            t.priorityProperty().removeListener(listener);
-            t.dueDateProperty().removeListener(listener);
-            t.tagProperty().removeListener(listener);
-        }
-    }
-
-    private void saveData() {
-        DataManager.saveTasks(masterTasks);
-    }
-
-    private void loadData() {
-        java.util.List<Task> saved = DataManager.loadTasks();
-        if (!saved.isEmpty()) {
-            masterTasks.setAll(saved);
-            updateTagFilter();
-        }
     }
 }

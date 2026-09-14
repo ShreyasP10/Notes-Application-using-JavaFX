@@ -145,8 +145,6 @@ public class TaskCard extends HBox {
         }
 
         updateImportant();
-        t.importantProperty().addListener((obs, old, val) -> updateImportant());
-
         metaRow.setVisible(priorityBadge.isVisible() || dueChip.isVisible());
     }
 

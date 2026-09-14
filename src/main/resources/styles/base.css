@@ -1,6 +1,6 @@
 * {
     -fx-font-family: "Segoe UI Variable Display", "Segoe UI", "Inter", system-ui, sans-serif;
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
 }
 
 .root {
@@ -15,30 +15,30 @@
 /* Title bar */
 .title-bar {
     -fx-background-radius: 16 16 0 0;
-    -fx-min-height: 44;
-    -fx-padding: 0 12;
+    -fx-min-height: 48;
+    -fx-padding: 0 16;
 }
 
 .title-bar-text {
     -fx-font-weight: 600;
-    -fx-font-size: 13px;
-    -fx-padding: 0 0 0 8;
-    -fx-letter-spacing: 0.3px;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 12;
+    -fx-letter-spacing: 0.4px;
 }
 
 .window-button {
     -fx-background-color: transparent;
-    -fx-font-size: 12px;
-    -fx-padding: 0 16;
-    -fx-min-height: 44;
-    -fx-min-width: 46;
+    -fx-font-size: 13px;
+    -fx-padding: 0 18;
+    -fx-min-height: 48;
+    -fx-min-width: 48;
     -fx-cursor: hand;
     -fx-background-radius: 0;
-    -fx-transition: -fx-background-color 0.15s ease;
+    -fx-transition: -fx-background-color 0.2s ease;
 }
 
 .window-button:hover {
-    -fx-transition: -fx-background-color 0.15s ease;
+    -fx-transition: -fx-background-color 0.2s ease;
 }
 
 .close-button {
@@ -52,75 +52,75 @@
 
 .sidebar-toggle {
     -fx-background-color: transparent;
-    -fx-font-size: 18px;
-    -fx-padding: 8;
-    -fx-min-height: 36;
-    -fx-min-width: 36;
+    -fx-font-size: 20px;
+    -fx-padding: 10;
+    -fx-min-height: 40;
+    -fx-min-width: 40;
     -fx-cursor: hand;
-    -fx-background-radius: 10;
-    -fx-transition: -fx-background-color 0.15s ease;
+    -fx-background-radius: 12;
+    -fx-transition: -fx-background-color 0.2s ease;
 }
 
 .sidebar-toggle:hover {
-    -fx-transition: -fx-background-color 0.15s ease;
+    -fx-transition: -fx-background-color 0.2s ease;
 }
 
 .avatar {
-    -fx-background-radius: 20;
-    -fx-min-width: 40;
-    -fx-min-height: 40;
+    -fx-background-radius: 24;
+    -fx-min-width: 48;
+    -fx-min-height: 48;
     -fx-background-color: #4f6ef7;
-    -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.3), 8, 0.3, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.35), 10, 0.4, 0, 3);
 }
 
 .sidebar-username {
     -fx-font-weight: 600;
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
 }
 
 .sidebar-item {
-    -fx-background-radius: 10;
+    -fx-background-radius: 12;
     -fx-cursor: hand;
-    -fx-padding: 10 14;
-    -fx-transition: -fx-background-color 0.15s ease, -fx-translate-x 0.15s ease;
+    -fx-padding: 12 16;
+    -fx-transition: -fx-background-color 0.2s ease, -fx-translate-x 0.2s ease;
 }
 
 .sidebar-item:hover {
-    -fx-translate-x: 2px;
-    -fx-transition: -fx-background-color 0.15s ease, -fx-translate-x 0.15s ease;
+    -fx-translate-x: 3px;
+    -fx-transition: -fx-background-color 0.2s ease, -fx-translate-x 0.2s ease;
 }
 
 .sidebar-item-active {
     -fx-background-color: rgba(79,110,247,0.12);
     -fx-border-width: 0;
-    -fx-padding: 10 14;
+    -fx-padding: 12 16;
 }
 
 .sidebar-icon {
-    -fx-font-size: 20px;
-    -fx-min-width: 28;
+    -fx-font-size: 22px;
+    -fx-min-width: 32;
 }
 
 .sidebar-label {
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-font-weight: 500;
 }
 
 /* Panels */
 .panel-title {
-    -fx-font-size: 26px;
+    -fx-font-size: 28px;
     -fx-font-weight: 700;
-    -fx-letter-spacing: -0.5px;
+    -fx-letter-spacing: -0.6px;
 }
 
 .subtitle {
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
 }
 
 .search-field {
-    -fx-background-radius: 12;
-    -fx-padding: 8 14;
-    -fx-min-height: 36;
+    -fx-background-radius: 14;
+    -fx-padding: 10 16;
+    -fx-min-height: 40;
     -fx-border-width: 1.5;
     -fx-transition: -fx-border-color 0.2s ease, -fx-effect 0.2s ease;
 }
@@ -132,36 +132,37 @@
 /* Task list */
 .task-list-view {
     -fx-background: transparent;
-    -fx-padding: 4;
+    -fx-padding: 8;
 }
 
 .task-list-view .list-cell {
     -fx-background-color: transparent;
-    -fx-padding: 5 0;
+    -fx-padding: 6 0;
 }
 
 .task-card {
-    -fx-background-radius: 16;
-    -fx-padding: 14 16;
-    -fx-spacing: 12;
+    -fx-background-radius: 20;
+    -fx-padding: 18 22;
+    -fx-spacing: 16;
     -fx-border-width: 1;
-    -fx-border-radius: 16;
-    -fx-transition: -fx-scale-x 0.15s ease, -fx-scale-y 0.15s ease, -fx-effect 0.2s ease, -fx-border-color 0.2s ease;
+    -fx-border-radius: 20;
+    -fx-transition: -fx-scale-x 0.2s ease, -fx-scale-y 0.2s ease, -fx-effect 0.25s ease, -fx-border-color 0.25s ease;
 }
 
 .task-card:hover {
-    -fx-scale-x: 1.015;
-    -fx-scale-y: 1.015;
-    -fx-transition: -fx-scale-x 0.15s ease, -fx-scale-y 0.15s ease, -fx-effect 0.2s ease, -fx-border-color 0.2s ease;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-transition: -fx-scale-x 0.2s ease, -fx-scale-y 0.2s ease, -fx-effect 0.25s ease, -fx-border-color 0.25s ease;
+    -fx-cursor: hand;
 }
 
 .task-card:pressed {
-    -fx-scale-x: 0.985;
-    -fx-scale-y: 0.985;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
 }
 
 .task-title {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-font-weight: 500;
 }
 
@@ -206,37 +207,37 @@
 }
 
 .floating-input {
-    -fx-background-radius: 28;
-    -fx-padding: 14 24;
-    -fx-border-radius: 28;
-    -fx-font-size: 14px;
-    -fx-pref-width: 600px;
+    -fx-background-radius: 32;
+    -fx-padding: 16 28;
+    -fx-border-radius: 32;
+    -fx-font-size: 15px;
+    -fx-pref-width: 650px;
     -fx-max-width: Infinity;
     -fx-border-width: 2;
-    -fx-min-height: 52;
-    -fx-transition: -fx-border-color 0.2s ease, -fx-effect 0.2s ease;
+    -fx-min-height: 56;
+    -fx-transition: -fx-border-color 0.25s ease, -fx-effect 0.25s ease;
 }
 
 .add-task-btn {
     -fx-text-fill: white;
-    -fx-background-radius: 28;
-    -fx-min-width: 52;
-    -fx-min-height: 52;
-    -fx-font-size: 24px;
+    -fx-background-radius: 32;
+    -fx-min-width: 56;
+    -fx-min-height: 56;
+    -fx-font-size: 26px;
     -fx-font-weight: 300;
     -fx-cursor: hand;
-    -fx-transition: -fx-scale-x 0.15s ease, -fx-scale-y 0.15s ease, -fx-effect 0.15s ease;
+    -fx-transition: -fx-scale-x 0.2s ease, -fx-scale-y 0.2s ease, -fx-effect 0.2s ease;
 }
 
 .add-task-btn:hover {
-    -fx-scale-x: 1.06;
-    -fx-scale-y: 1.06;
-    -fx-transition: -fx-scale-x 0.15s ease, -fx-scale-y 0.15s ease, -fx-effect 0.15s ease;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+    -fx-transition: -fx-scale-x 0.2s ease, -fx-scale-y 0.2s ease, -fx-effect 0.2s ease;
 }
 
 .add-task-btn:pressed {
-    -fx-scale-x: 0.94;
-    -fx-scale-y: 0.94;
+    -fx-scale-x: 0.92;
+    -fx-scale-y: 0.92;
 }
 
 /* Notes */

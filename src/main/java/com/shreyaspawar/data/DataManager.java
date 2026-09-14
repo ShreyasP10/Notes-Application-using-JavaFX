@@ -15,9 +15,20 @@ public class DataManager {
 
     private DataManager() {}
 
-    public static List<Task> loadTasks() {
-        List<Task> tasks = new ArrayList<>();
-        if (!Files.exists(DATA_FILE)) return tasks;
+    private static final javafx.collections.ObservableList<Task> tasks = javafx.collections.FXCollections.observableArrayList();
+    private static boolean loaded = false;
+
+    public static javafx.collections.ObservableList<Task> getTasks() {
+        if (!loaded) {
+            loadTasks();
+            loaded = true;
+        }
+        return tasks;
+    }
+
+    private static void loadTasks() {
+        tasks.clear();
+        if (!Files.exists(DATA_FILE)) return;
 
         try (BufferedReader reader = Files.newBufferedReader(DATA_FILE, StandardCharsets.UTF_8)) {
             String line;
@@ -25,15 +36,38 @@ public class DataManager {
                 line = line.trim();
                 if (line.isEmpty()) continue;
                 Task task = parseTask(line);
-                if (task != null) tasks.add(task);
+                if (task != null) {
+                    attachTaskListeners(task);
+                    tasks.add(task);
+                }
             }
         } catch (IOException e) {
             System.err.println("Failed to load tasks: " + e.getMessage());
         }
-        return tasks;
+
+        tasks.addListener((javafx.collections.ListChangeListener<Task>) c -> {
+            while (c.next()) {
+                if (c.wasAdded()) {
+                    for (Task t : c.getAddedSubList()) {
+                        attachTaskListeners(t);
+                    }
+                }
+            }
+            saveTasks();
+        });
     }
 
-    public static void saveTasks(List<Task> tasks) {
+    private static void attachTaskListeners(Task t) {
+        javafx.beans.value.ChangeListener<Object> listener = (obs, old, val) -> saveTasks();
+        t.completedProperty().addListener(listener);
+        t.importantProperty().addListener(listener);
+        t.titleProperty().addListener(listener);
+        t.priorityProperty().addListener(listener);
+        t.dueDateProperty().addListener(listener);
+        t.tagProperty().addListener(listener);
+    }
+
+    public static void saveTasks() {
         try {
             Files.createDirectories(DATA_DIR);
             try (BufferedWriter writer = Files.newBufferedWriter(DATA_FILE, StandardCharsets.UTF_8)) {

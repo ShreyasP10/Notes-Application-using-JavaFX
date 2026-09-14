@@ -23,8 +23,8 @@
 .search-field { -fx-background-color: #ffffff; -fx-text-fill: #1d1d1f; -fx-prompt-text-fill: #aeaeb2; -fx-border-color: #e5e5ea; }
 .search-field:focused { -fx-border-color: #4f6ef7; -fx-effect: dropshadow(gaussian, rgba(79,110,247,0.12), 8, 0.3, 0, 0); }
 
-.task-card { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 8, 0.1, 0, 2); -fx-border-color: rgba(0,0,0,0.04); }
-.task-card:hover { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0.15, 0, 4); -fx-border-color: rgba(0,0,0,0.08); }
+.task-card { -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 8, 0.1, 0, 2); -fx-border-color: rgba(0,0,0,0.05); }
+.task-card:hover { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 24, 0.1, 0, 8); -fx-border-color: rgba(0,0,0,0.1); }
 .task-title { -fx-text-fill: #1d1d1f; }
 .task-title.completed { -fx-text-fill: #aeaeb2; }
 .due-chip { -fx-background-color: rgba(0,0,0,0.04); -fx-text-fill: #86868b; }
